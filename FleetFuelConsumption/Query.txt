@@ -1,34 +1,75 @@
-//Account_tbl:
-CREATE TABLE ACCOUNT_TBL (
-    Account_Number VARCHAR2(20) CONSTRAINT Account_Number_pk PRIMARY KEY,
-    Customer_Name VARCHAR2(15),
-    Balance NUMBER(10,2)
+//VEHICLE_TBL
+CREATE TABLE VEHICLE_TBL (
+    Vehicle_ID VARCHAR2(12) 
+        CONSTRAINT vehicle_pk PRIMARY KEY,
+        
+    Model VARCHAR2(120),
+    
+    Category VARCHAR2(60),
+    
+    Tank_Capacity NUMBER(6,2),
+    
+    Total_Distance NUMBER(12,2),
+    
+    Total_Fuel_Used NUMBER(12,2));
+//TRIP_TBL
+CREATE TABLE TRIP_TBL (
+    Trip_ID NUMBER(10)
+        CONSTRAINT trip_pk PRIMARY KEY,
+        
+    Vehicle_ID VARCHAR2(12),
+    
+    Trip_Date DATE,
+    
+    Distance_Traveled NUMBER(12,2),
+    
+    Fuel_Consumed NUMBER(12,2),
+    
+    CONSTRAINT trip_vehicle_fk 
+        FOREIGN KEY (Vehicle_ID)
+        REFERENCES VEHICLE_TBL (Vehicle_ID)
 );
-
-
-//Values for account_tbl:
-INSERT into ACCOUNT_TBL(Account_Number,Customer_Name,Balance)values('1234567890','Reddy',80000);
-INSERT into ACCOUNT_TBL(Account_Number,Customer_Name,Balance)values('1234567891','Mahesh',0);
-INSERT into ACCOUNT_TBL(Account_Number,Customer_Name,Balance)values('1234567892','Dhanu',100);
-INSERT into ACCOUNT_TBL(Account_Number,Customer_Name,Balance)values('1234567893','Sam',500);
-
-
-//Transfer_tbl:
-CREATE TABLE TRANSFER_TBL (
-    Transaction_ID NUMBER(4) CONSTRAINT trans_id_pk PRIMARY KEY,
-    Account_Number VARCHAR2(10),
-    Beneficiary_Account_Number VARCHAR2(10),
-    Transaction_Date DATE,
-    Transaction_Amount NUMBER(10,2),
-    CONSTRAINT acc_num_fk FOREIGN KEY (Account_Number) REFERENCES ACCOUNT_TBL(Account_Number),
-    CONSTRAINT bene_acc_fk FOREIGN KEY (Beneficiary_Account_Number) REFERENCES ACCOUNT_TBL(Account_Number)
+// FUEL_EXPENSE_TBL
+CREATE TABLE FUEL_EXPENSE_TBL (
+    Expense_ID NUMBER(10)
+        CONSTRAINT expense_pk PRIMARY KEY,
+        
+    Vehicle_ID VARCHAR2(12),
+    
+    Fuel_Volume NUMBER(12,2),
+    
+    Cost NUMBER(12,2),
+    
+    Purchase_Date DATE,
+    
+    Station_Name VARCHAR2(200),
+    
+    CONSTRAINT expense_vehicle_fk
+        FOREIGN KEY (Vehicle_ID)
+        REFERENCES VEHICLE_TBL (Vehicle_ID)
 );
+//Insert into VEHICLE_TBL
+INSERT INTO VEHICLE_TBL VALUES
+('VH1001','Tata Nexon','SUV',45.00,12500.00,780.00);
+
+//INSERT INTO VEHICLE_TBL VALUES
+('VH1002','Maruti Swift','Hatchback',37.00,18200.00,910.00);
+nsert into TRIP_TBL
+INSERT INTO TRIP_TBL VALUES
+(510001,'VH1001',TO_DATE('2025-02-21','YYYY-MM-DD'),120.00,7.50);
 
 
-//Sequence:
-create sequence transactionId_seq
-		START WITH 1000
-		MINVALUE 1000
-		MAXVALUE 9999
-		INCREMENT BY 1;
-		//select transactionId_seq.NEXTVAL from Dual;
+INSERT INTO TRIP_TBL VALUES
+(510002,'VH1002',TO_DATE('2025-02-22','YYYY-MM-DD'),90.00,5.00);
+
+//Insert into FUEL_EXPENSE_TBL
+INSERT INTO FUEL_EXPENSE_TBL VALUES
+(780001,'VH1001',30.00,2700.00,
+ TO_DATE('2025-02-20','YYYY-MM-DD'),
+ 'HP Pump - Pune');
+
+
+INSERT INTO FUEL_EXPENSE_TBL VALUES
+(780002,'VH1002',20.00,1800.00,
+ TO_DATE('2025-02-18','YYYY-MM-DD'),
+ 'BPCL Mumbai');
