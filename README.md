@@ -6,4 +6,9 @@ Technologies Used:
 
 Java
 
-Core Java concepts
+Core Java concepts 
+
+
+
+<img width="302" height="175" alt="Fleet Management Console Output" 
+src="https://github.com/user-attachments/assets/181a8a9f-44a9-40c3-a829-bc15b3f97dcf" />
